@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradi dell'Esercito Italiano</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+        /* Header Sopra */
+        
+        :root {
+            --dark-green: #1a3a1a;
+            --medium-green: #2d5a2d;
+            --light-green: #3c6e3c;
+            --black: #121212;
+            --dark-gray: #333333;
+            --light-gray: #f0f0f0;
+            --gold: #d4af37;
+            --silver: #c0c0c0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            overflow-x: hidden;
+        }
+        
+        header {
+            background-color: var(--dark-green);
+            height: 80px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 60px;
+        }
+        
+        .logo h1 {
+            color: white;
+            margin-left: 15px;
+            font-size: 1.5rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav ul li a:hover {
+            color: var(--gold);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/api/placeholder/1600/900') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+        }
+        
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .cta-button {
+            background-color: var(--gold);
+            color: var(--black);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        section {
+            padding: 80px 10%;
+        }
+        
+        section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--dark-green);
+            position: relative;
+        }
+        
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--gold);
+        }
+
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+            overflow: hidden; /* Per assicurarsi che l'immagine non crei scrollbar */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('image/eiwall2.jpg') center/cover no-repeat;
+            z-index: 1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Overlay scuro per leggibilità */
+            z-index: 2;
+        }
+
+        .hero h2, .hero p, .hero .cta-button {
+            position: relative;
+            z-index: 3; /* Valore più alto per assicurarsi che siano sopra l'immagine e l'overlay */
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* footer sotto */
+
+        footer {
+            background-color: var(--dark-green);
+            color: white;
+            padding: 60px 10% 30px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #009246 33.3%, #ffffff 33.3%, #ffffff 66.6%, #ce2b37 66.6%); /* Tricolore italiano */
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo img {
+            height: 100px;
+            width: 165px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .social-icons a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--medium-green);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .footer-links h3, .footer-contact h3, .footer-documents h3 {
+            position: relative;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            color: var(--gold);
+        }
+
+        .footer-links h3::after, .footer-contact h3::after, .footer-documents h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--gold);
+        }
+
+        .footer-links ul, .footer-documents ul {
+            list-style: none;
+        }
+
+        .footer-links ul li, .footer-documents ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links ul li a, .footer-documents ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links ul li a i, .footer-documents ul li a i {
+            margin-right: 10px;
+            color: var(--gold);
+            width: 20px;
+            text-align: center;
+        }
+
+        .footer-links ul li a:hover, .footer-documents ul li a:hover {
+            color: var(--gold);
+            transform: translateX(5px);
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+        }
+
+        .contact-info p i {
+            margin-right: 10px;
+            color: var(--gold);
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-info p span {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .contact-info p a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info p a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        .join-now {
+            margin-top: 25px;
+        }
+
+        .join-button {
+            display: inline-block;
+            background-color: var(--gold);
+            color: var(--black);
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .join-button i {
+            margin-right: 8px;
+        }
+
+        .join-button:hover {
+            background-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .footer-credentials {
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        .certifications {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .certifications span {
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+        }
+
+        .certifications span i {
+            color: var(--gold);
+            margin-right: 8px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .copyright p {
+            margin-bottom: 10px;
+            color: #a0a0a0;
+        }
+
+        .copyright p:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .certifications {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+
+        /* Pagina Gradi Inizio */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Contenitore principale */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Sezione categorie */
+        .categoria {
+            margin-bottom: 3rem;
+        }
+
+        .categoria h2 {
+            color: #3a5e25;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #3a5e25;
+        }
+
+        /* Griglia dei gradi */
+        .griglia-gradi {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Card per ogni grado */
+        .grado-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grado-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .grado-img {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+            padding: 1rem;
+        }
+
+        .grado-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .grado-info {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .grado-info h3 {
+            margin-bottom: 0.5rem;
+            color: #3a5e25;
+        }
+
+        .grado-info p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .griglia-gradi {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1.5rem;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .griglia-gradi {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 1rem;
+            }
+
+            .grado-img {
+                height: 120px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="image/logo.png" alt="Logo Esercito Italiano Roleplay">
+            <h1>ESERCITO ITALIANO IRP</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#ufficiali">Ufficiali</a></li>
+                <li><a href="#uffsup">Ufficiali Superiori</a></li>
+                <li><a href="#uffinf">Ufficiali Inferiori</a></li>
+                <li><a href="#sottouff">Sottufficiali</a></li>
+                <li><a href="#graduati">Graduati</a></li>
+                <li><a href="#truppa">Militari di Truppa</a></li>
+                <li><a href="#contact">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h2>Esercito Italiano: Forza, Onore, Patria</h2>
+        <div class="hero-image">
+            <img src="image/nessuna.jpg" alt="Soldati dell'Esercito Italiano">
+        </div>
+        <p>Non aspettare che il cambiamento arrivi, diventa tu il cambiamento! La tua forza e il tuo impegno per il nostro Paese.</p>
+        <a href="#" class="cta-button">Unisciti Ora</a>
+    </section>
+
+    <div class="container">
+        <!-- Sezione Ufficiali Generali -->
+        <section class="categoria" id="ufficiali">
+            <h2>Ufficiali Generali</h2>
+            <div class="griglia-gradi">
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/generale.png" alt="Generale">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Generale</h3>
+                        <p>Massima carica militare dell'Esercito Italiano</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/generaledicorpodarmata.png" alt="Generale di Corpo d'Armata">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Generale di Corpo d'Armata</h3>
+                        <p>Comanda un Corpo d'Armata o incarichi equivalenti</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/generaledidivisione.png" alt="Generale di Divisione">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Generale di Divisione</h3>
+                        <p>Comanda una Divisione o incarichi equivalenti</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/generaledibrigata.png" alt="Generale di Brigata">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Generale di Brigata</h3>
+                        <p>Comanda una Brigata o incarichi equivalenti</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Ufficiali Superiori -->
+        <section class="categoria" id="uffsup">
+            <h2>Ufficiali Superiori</h2>
+            <div class="griglia-gradi">
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/colonnello.png" alt="Colonnello">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Colonnello</h3>
+                        <p>Comanda un Reggimento o incarichi equivalenti</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/tenentecolonnello.png" alt="Tenente Colonnello">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Tenente Colonnello</h3>
+                        <p>Vice comandante di Reggimento o incarichi equivalenti</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/maggiore.png" alt="Maggiore">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Maggiore</h3>
+                        <p>Può comandare un Battaglione o incarichi equivalenti</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Ufficiali Inferiori -->
+        <section class="categoria" id="uffinf">
+            <h2>Ufficiali Inferiori</h2>
+            <div class="griglia-gradi">
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/capitano.png" alt="Capitano">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Capitano</h3>
+                        <p>Comanda una Compagnia o incarichi equivalenti</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/tenente.png" alt="Tenente">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Tenente</h3>
+                        <p>Vice comandante di Compagnia o incarichi equivalenti</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/sottotenente.png" alt="Sottotenente">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Sottotenente</h3>
+                        <p>Comanda un Plotone o incarichi equivalenti</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Sottufficiali -->
+        <section class="categoria" id="sottouff">
+            <h2>Sottufficiali</h2>
+            <div class="griglia-gradi">
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/luogotenente.png" alt="Luogotenente">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Luogotenente</h3>
+                        <p>Grado apicale della categoria Sottufficiali</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/primomaresciallo.png" alt="Primo Maresciallo">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Primo Maresciallo</h3>
+                        <p>Sottufficiale con funzioni di comando</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/maresciallocapo.png" alt="Maresciallo Capo">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Maresciallo Capo</h3>
+                        <p>Sottufficiale con funzioni di comando</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/marescialloordinario.png" alt="Maresciallo Ordinario">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Maresciallo Ordinario</h3>
+                        <p>Sottufficiale con funzioni specialistiche</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/maresciallo.png" alt="Maresciallo">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Maresciallo</h3>
+                        <p>Sottufficiale con funzioni specialistiche</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Graduati -->
+        <section class="categoria" id="graduati">
+            <h2>Graduati</h2>
+            <div class="griglia-gradi">
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/sergentemaggiorecapo.png" alt="Sergente Maggiore Capo">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Sergente Maggiore Capo</h3>
+                        <p>Graduato con funzioni di comando</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/sergentemaggiore.png" alt="Sergente Maggiore">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Sergente Maggiore</h3>
+                        <p>Graduato con funzioni di comando</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/sergente.png" alt="Sergente">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Sergente</h3>
+                        <p>Graduato con funzioni di comando</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Militari di Truppa -->
+        <section class="categoria" id="truppa">
+            <h2>Militari di Truppa</h2>
+            <div class="griglia-gradi">
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/caporalmaggiorecaposcelto.png" alt="Caporal Maggiore Capo Scelto">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Caporal Maggiore Capo Scelto</h3>
+                        <p>Truppa con incarichi di responsabilità</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/caporalmaggiorecapo.png" alt="Caporal Maggiore Capo">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Caporal Maggiore Capo</h3>
+                        <p>Truppa con incarichi di responsabilità</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/caporalmaggiorescelto.png" alt="Caporal Maggiore Scelto">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Caporal Maggiore Scelto</h3>
+                        <p>Truppa con incarichi specializzati</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/primocaporalmaggiore.png" alt="Primo Caporal Maggiore">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Primo Caporal Maggiore</h3>
+                        <p>Truppa volontaria in servizio permanente</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/caporale.png" alt="Caporale">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Caporale</h3>
+                        <p>Militare di truppa con funzioni di comando</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <div class="grado-img">
+                        <img src="image/gradi/soldato.png" alt="Soldato">
+                    </div>
+                    <div class="grado-info">
+                        <h3>Soldato</h3>
+                        <p>Militare di truppa senza funzioni di comando</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="footer-content">
+                <!-- Colonna Logo e Descrizione -->
+                <div class="footer-logo">
+                    <img src="image/eiscritta.png" alt="Logo Esercito Italiano Roleplay">
+                    <p>Il server roleplay dell'Esercito Italiano è una comunità dedicata alla simulazione realistica dell'esperienza militare. Uniamoci nel nome dei valori di onore, coraggio e disciplina per servire con fedeltà la Patria.</p>
+                    <div class="social-icons">
+                        <a href="#" title="Discord" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <a href="#" title="YouTube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" title="Instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" title="Twitter" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" title="Facebook" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    </div>
+                </div>
+        
+                <!-- Colonna Link Utili -->
+                <div class="footer-links">
+                    <h3>Link Utili</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                        <li><a href="EI Veicoli.html"><i class="fa-solid fa-images"></i> Mezzi Operativi</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScymWuldn9yvJWk7ogMQ3NqDv9XDePvyKB_7DtLMewXo0v8zA/viewform"><i class="fa-solid fa-clipboard-list"></i> Bandi di Arruolamento</a></li>
+                        <li><a href="https://docs.google.com/document/d/1Z3_Ow9_Vs7IBGzFsqHDysPZsVTFxmumNfbcAv-IVpo8/edit?tab=t.0"><i class="fa-solid fa-book"></i> Manuali di Addestramento</a></li>
+                        <li><a href="#"><i class="fa-solid fa-medal"></i> Decorazioni e Riconoscimenti</a></li>
+                        <li><a href="#"><i class="fa-solid fa-question-circle"></i> FAQ</a></li>
+                    </ul>
+                </div>
+        
+                <!-- Colonna Documenti -->
+                <div class="footer-documents">
+                    <h3>Documenti Ufficiali</h3>
+                    <ul>
+                        <li><a href="#"><i class="fa-solid fa-file-alt"></i> Regolamento Generale</a></li>
+                        <li><a href="#"><i class="fa-solid fa-file-contract"></i> Codice di Condotta</a></li>
+                        <li><a href="#"><i class="fa-solid fa-file-medical"></i> Procedure Operative Standard</a></li>
+                        <li><a href="#"><i class="fa-solid fa-calendar-alt"></i> Calendario Addestrativo</a></li>
+                        <li><a href="#"><i class="fa-solid fa-shield-alt"></i> Normative di Sicurezza</a></li>
+                        <li><a href="#"><i class="fa-solid fa-graduation-cap"></i> Percorsi Formativi</a></li>
+                        <li><a href="#"><i class="fa-solid fa-history"></i> Storia dell'Esercito</a></li>
+                        <li><a href="#"><i class="fa-solid fa-newspaper"></i> Bollettino Informativo</a></li>
+                    </ul>
+                </div>
+        
+                <!-- Colonna Contatti -->
+                <div class="footer-contact">
+                    <h3>Contattaci</h3>
+                    <div class="contact-info">
+                        <p><i class="fa-brands fa-discord"></i> <span>Discord:</span> <a href="https://discord.gg/esercitoitalianorp" target="_blank">EsercitoItalianoRP</a></p>
+                        <p><i class="fa-solid fa-envelope"></i> <span>Email:</span> <a href="mailto:info@esercitoitalianorp.it">info@esercitoitalianorp.it</a></p>
+                        <p><i class="fa-solid fa-clock"></i> <span>Orari Server:</span> 14:00 - 00:00 CET</p>
+                        <p><i class="fa-solid fa-calendar-check"></i> <span>Addestramenti:</span> Martedì, Giovedì, Sabato</p>
+                        <p><i class="fa-solid fa-bullhorn"></i> <span>Reclutamenti:</span> Lunedì e Venerdì</p>
+                    </div>
+                    <div class="join-now">
+                        <a href="#" class="join-button"><i class="fa-solid fa-user-plus"></i> Unisciti Ora</a>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Copyright -->
+            <div class="copyright">
+                <p>&copy; 2025 Esercito Italiano Roleplay Server. Tutti i diritti riservati.</p>
+                <p><small>Questo server non è affiliato con l'Esercito Italiano ufficiale. Creato a scopo di intrattenimento e roleplay.</small></p>
+            </div>
+        </footer>
+</body>
+</html>

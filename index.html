@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercito Italiano RolePlay | Forza, Onore, Patria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-green: #1a3a1a;
+            --medium-green: #2d5a2d;
+            --light-green: #3c6e3c;
+            --black: #121212;
+            --dark-gray: #333333;
+            --light-gray: #f0f0f0;
+            --gold: #d4af37;
+            --silver: #c0c0c0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            overflow-x: hidden;
+        }
+        
+        header {
+            background-color: var(--dark-green);
+            height: 80px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 60px;
+        }
+        
+        .logo h1 {
+            color: white;
+            margin-left: 15px;
+            font-size: 1.5rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav ul li a:hover {
+            color: var(--gold);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/api/placeholder/1600/900') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+        }
+        
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .cta-button {
+            background-color: var(--gold);
+            color: var(--black);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        section {
+            padding: 80px 10%;
+        }
+        
+        section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--dark-green);
+            position: relative;
+        }
+        
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--gold);
+        }
+        
+        .about {
+            background-color: white;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .departments {
+            background-color: var(--light-gray);
+        }
+        
+        .department-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .department-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .department-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .department-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .department-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+        
+        .department-card:hover .department-image img {
+            transform: scale(1.1);
+        }
+        
+        .department-content {
+            padding: 20px;
+        }
+        
+        .department-content h3 {
+            margin-bottom: 10px;
+            color: var(--dark-green);
+        }
+        
+        .department-content p {
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+        }
+        
+        .department-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--medium-green);
+            border-radius: 50%;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .operations {
+            background-color: white;
+        }
+        
+        .operations-container {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .operations-list {
+            flex: 1;
+        }
+        
+        .operation-item {
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .operation-item:hover {
+            background-color: var(--medium-green);
+            color: white;
+        }
+        
+        .operation-item h3 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .operation-item h3 span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: var(--gold);
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .operation-map {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .operation-map img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery {
+            background-color: var(--light-gray);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .gallery-item {
+            display: block;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 250px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        footer {
+            background-color: var(--dark-green);
+            color: white;
+            padding: 50px 10%;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .footer-logo {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .footer-logo img {
+            height: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-links, .footer-contact {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-links h3, .footer-contact h3 {
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links ul li a:hover {
+            color: var(--gold);
+        }
+        
+        .footer-contact p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--medium-green);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--gold);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 1024px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .operations-container {
+                flex-direction: column;
+            }
+            
+            .operation-map {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                height: auto;
+                padding: 15px 5%;
+                flex-direction: column;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            section {
+                padding: 60px 5%;
+            }
+        }
+
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+            overflow: hidden; /* Per assicurarsi che l'immagine non crei scrollbar */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('image/eiwall2.jpg') center/cover no-repeat;
+            z-index: 1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Overlay scuro per leggibilità */
+            z-index: 2;
+        }
+
+        .hero h2, .hero p, .hero .cta-button {
+            position: relative;
+            z-index: 3; /* Valore più alto per assicurarsi che siano sopra l'immagine e l'overlay */
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        #music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        #play-pause-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--dark-green);
+            border: 2px solid var(--gold);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        #play-pause-button:hover {
+            background-color: var(--medium-green);
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: var(--dark-green);
+            color: white;
+            padding: 60px 10% 30px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #009246 33.3%, #ffffff 33.3%, #ffffff 66.6%, #ce2b37 66.6%); /* Tricolore italiano */
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo img {
+            height: 100px;
+            width: 165px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .social-icons a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--medium-green);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .footer-links h3, .footer-contact h3, .footer-documents h3 {
+            position: relative;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            color: var(--gold);
+        }
+
+        .footer-links h3::after, .footer-contact h3::after, .footer-documents h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--gold);
+        }
+
+        .footer-links ul, .footer-documents ul {
+            list-style: none;
+        }
+
+        .footer-links ul li, .footer-documents ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links ul li a, .footer-documents ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links ul li a i, .footer-documents ul li a i {
+            margin-right: 10px;
+            color: var(--gold);
+            width: 20px;
+            text-align: center;
+        }
+
+        .footer-links ul li a:hover, .footer-documents ul li a:hover {
+            color: var(--gold);
+            transform: translateX(5px);
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+        }
+
+        .contact-info p i {
+            margin-right: 10px;
+            color: var(--gold);
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-info p span {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .contact-info p a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info p a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        .join-now {
+            margin-top: 25px;
+        }
+
+        .join-button {
+            display: inline-block;
+            background-color: var(--gold);
+            color: var(--black);
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .join-button i {
+            margin-right: 8px;
+        }
+
+        .join-button:hover {
+            background-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .footer-credentials {
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        .certifications {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .certifications span {
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+        }
+
+        .certifications span i {
+            color: var(--gold);
+            margin-right: 8px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .copyright p {
+            margin-bottom: 10px;
+            color: #a0a0a0;
+        }
+
+        .copyright p:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .certifications {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="image/logo.png" alt="Logo Esercito Italiano Roleplay">
+            <h1>ESERCITO ITALIANO IRP</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">Chi Siamo</a></li>
+                <li><a href="#departments">Reparti</a></li>
+                <li><a href="#operations">Operazioni</a></li>
+                <li><a href="#gallery">Galleria</a></li>
+                <li><a href="#contact">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h2>Esercito Italiano: Forza, Onore, Patria</h2>
+        <div class="hero-image">
+            <img src="image/nessuna.jpg" alt="Soldati dell'Esercito Italiano">
+        </div>
+        <p>Non aspettare che il cambiamento arrivi, diventa tu il cambiamento! La tua forza e il tuo impegno per il nostro Paese.</p>
+        <a href="#" class="cta-button">Unisciti Ora</a>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <h2>Chi Siamo</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>L'Esercito Italiano è la componente terrestre delle Forze Armate italiane, con l'obiettivo di difendere il territorio nazionale e partecipare a missioni internazionali di pace e sicurezza. Organizzato in diversi reparti e specialità, tra cui fanteria, cavalleria, artiglieria e genio, l'Esercito si distingue per l'alta professionalità dei suoi soldati. La sua struttura include unità operative, di supporto e di formazione, ed è coinvolto anche in operazioni di protezione civile e soccorso in caso di calamità naturali.</p>
+                <br>
+                <p>I nostri valori fondamentali sono:</p>
+                <br>
+                <ul>
+                    <li><strong>Rispetto</strong> - Verso tutti i membri della comunità</li>
+                    <li><strong>Realismo</strong> - Nelle procedure, nell'addestramento e nelle operazioni</li>
+                    <li><strong>Cameratismo</strong> - Spirito di squadra e cooperazione</li>
+                    <li><strong>Disciplina</strong> - Capacità di seguire ordini e rispettare la gerarchia</li>
+                    <li><strong>Integrità</strong> - Onestà e coerenza nelle azioni</li>
+                    <li><strong>Coraggio</strong> - Determinazione di fronte alle difficoltà</li>
+                    <li><strong>Professionalità</strong> - Competenza e dedizione nel servizio</li>
+                    <li><strong>Lealtà</strong> - Fedeltà verso l'Istituzione e i compagni</li>
+                    <li><strong>Responsabilità</strong> - Consapevolezza delle proprie azioni e decisioni</li>
+                    <li><strong>Servizio</strong> - Impegno al bene comune e alla protezione della comunità</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img src="image/eiwall.jpg" alt="Soldati dell'Esercito Italiano in formazione">
+            </div>
+        </div>
+    </section>
+
+    <!-- Departments Section -->
+    <section class="departments" id="departments">
+        <h2>Reparti</h2>
+        <div class="department-grid">
+
+            <!-- fanteria -->
+            <div class="department-card">
+                <div class="department-image">
+                    <img src="image/ruoli/fante.jpg" alt="Fanteria">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">F</div>
+                    <h3>Il Fante</h3>
+                    <p>La spina dorsale dell'Esercito, la Fanteria è addestrata per operare in ogni tipo di terreno e condizione climatica. Specializzata nel combattimento ravvicinato e nella presa di posizioni.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+            
+            <!-- cavalleria -->
+            <div class="department-card">
+                <div class="department-image">
+                    <img src="image/ruoli/cavalliere.png" alt="Cavalleria">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">C</div>
+                    <h3>Il Cavalliere</h3>
+                    <p>Forza corazzata dell'Esercito, la Cavalleria è equipaggiata con veicoli blindati per operazioni rapide, ricognizione e supporto alla fanteria sul campo di battaglia.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- artiglieria -->
+            <div class="department-card">
+                <div class="department-image">
+                    <img src="image/ruoli/artigliere.jpg" alt="Artiglieria">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">A</div>
+                    <h3>L'artigliere</h3>
+                    <p>L'Artiglieria fornisce potenza di fuoco a lungo raggio in supporto alle operazioni terrestri. Utilizza obici e sistemi missilistici per colpire obiettivi a distanza.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- genio -->
+            <div class="department-card">
+                <div class="department-image">
+                    <img src="image/ruoli/geniere.jpg" alt="Genio">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">G</div>
+                    <h3>Il Genio</h3>
+                    <p>Il Genio militare si occupa di costruzioni, demolizioni, bonifica di ordigni esplosivi e supporto infrastrutturale. Essenziale per la mobilità delle truppe sul campo.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+            
+            <!-- Paracadutista -->
+            <div class="department-card">
+                <div class="department-image">
+                    <img src="image/ruoli/paracadutista.jpg" alt="Paracadutista">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">P</div>
+                    <h3>Il Paracadutista</h3>
+                    <p>Il Paracadutista è specializzato in operazioni aeree, lanciando truppe e attrezzature in territori ostili per operazioni rapide e precise.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+            
+            <!-- Carrista -->
+            <div class="department-card">
+                <div class="department-image">
+                    <img src="image/ruoli/carrista.png" alt="Carrista">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">C</div>
+                    <h3>Il Carrista</h3>
+                    <p>Il Carrista è un esperto nel pilotare carri armati e veicoli blindati, utilizzando queste potenti macchine per manovre di forza sul campo di battaglia.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+            
+            <!-- Pilota -->
+            <div class="department-card">
+                <div class="department-image">
+                    <img src="image/ruoli/pilota.jpg" alt="Pilota">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">P</div>
+                    <h3>Il Pilota</h3>
+                    <p>Il Pilota è addestrato per il controllo di aerei e velivoli, impegnato in missioni aeree strategiche per il supporto delle operazioni terrestri e marittime.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+            
+            <!-- Incursore -->
+            <div class="department-card">
+                <div class="department-image">
+                    <img src="image/ruoli/incursore.png" alt="Incursore">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">I</div>
+                    <h3>L'Incursore</h3>
+                    <p>L'Incursore è un soldato d'élite altamente addestrato per missioni speciali, infiltrazioni e sabotaggi in territorio nemico.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="departments" id="departments">
+        <h2>Specializzazioni</h2>
+        <div class="department-grid">
+
+            <!-- 186º Reggimento Paracadutisti "Folgore" -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/folgore.jpg" alt="186º Reggimento Paracadutisti Folgore">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">F</div>
+                    <h3>186º Reggimento Paracadutisti "Folgore"</h3>
+                    <p>Unità di paracadutisti d'élite, specializzata in operazioni aeree e interventi rapidi in contesti di alta difficoltà.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- 9º Reggimento d'Assalto Paracadutisti "Col Moschin" -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/moshin.jpg" alt="9º Reggimento d'Assalto Paracadutisti Col Moschin">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">C</div>
+                    <h3>9º Reggimento d'Assalto Paracadutisti "Col Moschin"</h3>
+                    <p>Forza speciale dell'esercito italiano, specializzata in operazioni speciali, infiltrazioni e interventi in ambienti ostili.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Reggimento Bersaglieri -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/bersaglieri.jpg" alt="Reggimento Bersaglieri">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">B</div>
+                    <h3>Reggimento Bersaglieri</h3>
+                    <p>Reparto di fanteria leggera dell'esercito italiano, famoso per la rapidità di movimento e le capacità di ricognizione.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- 7° Brigata Alpina Julia -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/julia.jpg" alt="7° Brigata Alpina Julia">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">J</div>
+                    <h3>7° Brigata Alpina Julia</h3>
+                    <p>Unità specializzata in operazioni montane, addestrata per affrontare condizioni estreme e garantire la sicurezza in ambienti difficili.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Aeronautica Militare -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/aeronautica.jpg" alt="Aeronautica Militare">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">A</div>
+                    <h3>Aeronautica Militare</h3>
+                    <p>Forza armata aerea dell'Italia, responsabile della difesa dello spazio aereo e delle operazioni aeree nazionali e internazionali.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Marina Militare -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/marinamilitare.jpg" alt="Marina Militare">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">M</div>
+                    <h3>Marina Militare</h3>
+                    <p>Forza navale italiana, impegnata nella protezione delle acque territoriali e nelle operazioni marittime globali.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Croce Rossa Militare -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/crm.jpg" alt="Croce Rossa Militare">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">C</div>
+                    <h3>Croce Rossa Militare</h3>
+                    <p>Organizzazione dedicata al supporto medico e umanitario in contesti di guerra e di emergenze nazionali e internazionali.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- 5º Reggimento Genio Guastatori "Ariete" -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/guastatori.jpg" alt="5º Reggimento Genio Guastatori Ariete">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">G</div>
+                    <h3>5º Reggimento Genio Guastatori "Ariete"</h3>
+                    <p>Unità specializzata in demolizioni, costruzioni e bonifica di ordigni esplosivi, cruciale per la mobilità e la sicurezza delle truppe.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Arma dei Trasporti e Materiali (Logistica) -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/trasporti.png" alt="Arma dei Trasporti e Materiali">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">L</div>
+                    <h3>Arma dei Trasporti e Materiali (Logistica)</h3>
+                    <p>Gestisce la logistica e il trasporto di materiali, garantendo il supporto alle operazioni militari attraverso una gestione efficiente delle risorse.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Ufficio Concorsi -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/corsi.jpg" alt="Ufficio Concorsi">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">U</div>
+                    <h3>Ufficio Concorsi</h3>
+                    <p>Responsabile della selezione e dell'arruolamento del personale militare, gestendo i concorsi pubblici e le procedure di ingresso nelle forze armate.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Istruttore Accademico -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/istruttorearruolamento.jpg" alt="Istruttore Accademico">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">I</div>
+                    <h3>Istruttore Accademico</h3>
+                    <p>Figura professionale che si occupa della formazione teorica e pratica dei cadetti e del personale militare in ambito accademico.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Pilota Militare -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/pilotamilitare.jpg" alt="Pilota Militare">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">P</div>
+                    <h3>Pilota Militare</h3>
+                    <p>Qualifica necessaria per condurre velivoli militari, richiede un intenso addestramento tecnico e operativo.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Paracadutista Istruttore -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/paracadutistaistruttore.jpg" alt="Paracadutista Istruttore">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">PI</div>
+                    <h3>Paracadutista Istruttore</h3>
+                    <p>Qualifica avanzata per addestrare e guidare nuovi paracadutisti, assicurando standard di sicurezza e operatività.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Aviotrasportati -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/aviotrasportati.jpg" alt="Aviotrasportati">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">A</div>
+                    <h3>Aviotrasportati</h3>
+                    <p>Qualifica per il personale in grado di partecipare a operazioni di aviotrasporto, spesso in combinazione con capacità paracadutistiche.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+            <!-- Autieri -->
+            <div class="department-card" style="margin-bottom: 20px;">
+                <div class="department-image">
+                    <img src="image/ruoli/autieri.jpg" alt="Autieri">
+                </div>
+                <div class="department-content">
+                    <div class="department-icon">A</div>
+                    <h3>Autieri</h3>
+                    <p>Qualifica per il personale addetto alla guida e manutenzione dei mezzi motorizzati militari, essenziale per la logistica e il trasporto truppe.</p>
+                    <a href="#" class="cta-button">Scopri di più</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Operations Section -->
+    <section class="operations" id="operations">
+        <h2>Operazioni in Corso</h2>
+        <div class="operations-container">
+            <div class="operations-list">
+                <div class="operation-item">
+                    <h3><span></span>Operazione Aquila Fulminante</h3>
+                    <p>Operazione di addestramento congiunto tra reparti di fanteria e cavalleria nella regione montuosa del Nord. Scenario: contrasto all'insorgenza e controllo del territorio.</p>
+                    <p><strong>Stato:</strong> In corso</p>
+                    <p><strong>Partecipanti:</strong> 25 membri attivi</p>
+                </div>
+                <div class="operation-item">
+                    <h3><span></span>Missione Scudo Mediterraneo</h3>
+                    <p>Operazione di pattugliamento costiero e protezione delle risorse marittime nazionali. Coinvolge unità della Marina e supporto logistico terrestre.</p>
+                    <p><strong>Stato:</strong> Pianificazione</p>
+                    <p><strong>Partecipanti:</strong> Reclutamento aperto</p>
+                </div>
+                <div class="operation-item">
+                    <h3><span></span>Esercitazione Tricolore</h3>
+                    <p>Grande esercitazione annuale che coinvolge tutti i reparti dell'Esercito. Include scenari di combattimento urbano, operazioni speciali e supporto alla popolazione civile.</p>
+                    <p><strong>Stato:</strong> Programmata per il prossimo mese</p>
+                    <p><strong>Partecipanti:</strong> Tutti i membri attivi</p>
+                </div>
+            </div>
+            <div class="operation-map">
+                <img src="image/mappaoperativa.png" alt="Mappa Operativa">
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <h2>Galleria</h2>
+        <div class="gallery-grid">
+            <a href="#gallery-addestramento" class="gallery-item">
+                <img src="image/reclute.jpg" alt="Addestramento Reclute">
+                <div class="gallery-overlay">Addestramento Reclute</div>
+            </a>
+            <a href="#gallery-tattica" class="gallery-item">
+                <img src="image/tattica.jpg" alt="Esercitazione Tattica">
+                <div class="gallery-overlay">Esercitazione Tattica</div>
+            </a>
+            <a href="EI Veicoli.html" class="gallery-item">
+                <img src="image/mezzi.png" alt="Mezzi Militari">
+                <div class="gallery-overlay">Mezzi Militari</div>
+            </a>
+            <a href="#gallery-cerimonia" class="gallery-item">
+                <img src="image/cerimonia.jpeg" alt="Cerimonia Militare">
+                <div class="gallery-overlay">Cerimonia Militare</div>
+            </a>
+            <a href="#gallery-notturna" class="gallery-item">
+                <img src="image/notturna.jpg" alt="Operazione Notturna">
+                <div class="gallery-overlay">Operazione Notturna</div>
+            </a>
+            <a href="#gallery-parata" class="gallery-item">
+                <img src="image/parata.jpg" alt="Parata Militare">
+                <div class="gallery-overlay">Parata Militare</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <!-- Colonna Logo e Descrizione -->
+            <div class="footer-logo">
+                <img src="image/eiscritta.png" alt="Logo Esercito Italiano Roleplay">
+                <p>Il server roleplay dell'Esercito Italiano è una comunità dedicata alla simulazione realistica dell'esperienza militare. Uniamoci nel nome dei valori di onore, coraggio e disciplina per servire con fedeltà la Patria.</p>
+                <div class="social-icons">
+                    <a href="#" title="Discord" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#" title="YouTube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" title="Instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" title="Twitter" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" title="Facebook" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+    
+            <!-- Colonna Link Utili -->
+            <div class="footer-links">
+                <h3>Link Utili</h3>
+                <ul>
+                    <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li><a href="#about"><i class="fa-solid fa-users"></i> Chi Siamo</a></li>
+                    <li><a href="#departments"><i class="fa-solid fa-sitemap"></i> Reparti</a></li>
+                    <li><a href="#operations"><i class="fa-solid fa-map-marked-alt"></i> Operazioni</a></li>
+                    <li><a href="#gallery"><i class="fa-solid fa-images"></i> Galleria</a></li>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScymWuldn9yvJWk7ogMQ3NqDv9XDePvyKB_7DtLMewXo0v8zA/viewform"><i class="fa-solid fa-clipboard-list"></i> Bandi di Arruolamento</a></li>
+                    <li><a href="https://docs.google.com/document/d/1Z3_Ow9_Vs7IBGzFsqHDysPZsVTFxmumNfbcAv-IVpo8/edit?tab=t.0"><i class="fa-solid fa-book"></i> Manuali di Addestramento</a></li>
+                    <li><a href="EI Gradi.html"><i class="fa-solid fa-medal"></i> Gradi Esercito Italiano</a></li>
+                    <li><a href="#"><i class="fa-solid fa-question-circle"></i> FAQ</a></li>
+                </ul>
+            </div>
+    
+            <!-- Colonna Documenti -->
+            <div class="footer-documents">
+                <h3>Documenti Ufficiali</h3>
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-file-alt"></i> Regolamento Generale</a></li>
+                    <li><a href="#"><i class="fa-solid fa-file-contract"></i> Codice di Condotta</a></li>
+                    <li><a href="#"><i class="fa-solid fa-file-medical"></i> Procedure Operative Standard</a></li>
+                    <li><a href="#"><i class="fa-solid fa-calendar-alt"></i> Calendario Addestrativo</a></li>
+                    <li><a href="#"><i class="fa-solid fa-shield-alt"></i> Normative di Sicurezza</a></li>
+                    <li><a href="#"><i class="fa-solid fa-graduation-cap"></i> Percorsi Formativi</a></li>
+                    <li><a href="#"><i class="fa-solid fa-history"></i> Storia dell'Esercito</a></li>
+                    <li><a href="#"><i class="fa-solid fa-newspaper"></i> Bollettino Informativo</a></li>
+                </ul>
+            </div>
+    
+            <!-- Colonna Contatti -->
+            <div class="footer-contact">
+                <h3>Contattaci</h3>
+                <div class="contact-info">
+                    <p><i class="fa-brands fa-discord"></i> <span>Discord:</span> <a href="https://discord.gg/esercitoitalianorp" target="_blank">EsercitoItalianoRP</a></p>
+                    <p><i class="fa-solid fa-envelope"></i> <span>Email:</span> <a href="mailto:info@esercitoitalianorp.it">info@esercitoitalianorp.it</a></p>
+                    <p><i class="fa-solid fa-clock"></i> <span>Orari Server:</span> 14:00 - 00:00 CET</p>
+                    <p><i class="fa-solid fa-calendar-check"></i> <span>Addestramenti:</span> Martedì, Giovedì, Sabato</p>
+                    <p><i class="fa-solid fa-bullhorn"></i> <span>Reclutamenti:</span> Lunedì e Venerdì</p>
+                </div>
+                <div class="join-now">
+                    <a href="#" class="join-button"><i class="fa-solid fa-user-plus"></i> Unisciti Ora</a>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Copyright -->
+        <div class="copyright">
+            <p>&copy; 2025 Esercito Italiano Roleplay Server. Tutti i diritti riservati.</p>
+            <p><small>Questo server non è affiliato con l'Esercito Italiano ufficiale. Creato a scopo di intrattenimento e roleplay.</small></p>
+        </div>
+    </footer>
+
+    <!-- Audio Player -->
+    <div id="music-player">
+        <audio id="background-music" loop>
+            <source src="background.mp3" type="audio/mpeg">
+            Il tuo browser non supporta l'elemento audio.
+        </audio>
+        <button id="play-pause-button">
+            <i id="play-pause-icon" class="fa-solid fa-pause"></i>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('background-music');
+            const playPauseButton = document.getElementById('play-pause-button');
+            const playPauseIcon = document.getElementById('play-pause-icon');
+            
+            // Imposta il volume (fisso)
+            audio.volume = 0.3; // Volume al 30%
+            
+            // Imposta l'attributo autoplay sull'elemento audio
+            audio.autoplay = true;
+            
+            // Funzione per tentare l'autoplay
+            const attemptAutoplay = () => {
+                // Tenta di riprodurre l'audio
+                const playPromise = audio.play();
+                
+                // Gestisce la Promise restituita dal metodo play()
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            // Autoplay riuscito
+                            console.log('Autoplay avviato con successo');
+                            playPauseIcon.className = 'fa-solid fa-pause';
+                        })
+                        .catch(error => {
+                            // Autoplay fallito (probabilmente bloccato dal browser)
+                            console.log('Autoplay bloccato dal browser:', error);
+                            playPauseIcon.className = 'fa-solid fa-play';
+                            
+                            // Aggiungi un evento per consentire la riproduzione al primo click dell'utente sulla pagina
+                            document.addEventListener('click', function autoplayUnlocker() {
+                                audio.play()
+                                    .then(() => {
+                                        playPauseIcon.className = 'fa-solid fa-pause';
+                                        // Rimuovi l'event listener dopo il primo utilizzo
+                                        document.removeEventListener('click', autoplayUnlocker);
+                                    })
+                                    .catch(e => console.error('Riproduzione fallita anche dopo interazione:', e));
+                            }, { once: false });
+                        });
+                }
+            };
+            
+            // Tenta l'autoplay immediatamente
+            attemptAutoplay();
+            
+            // Gestione del pulsante di pausa/play
+            playPauseButton.addEventListener('click', function() {
+                if (audio.paused) {
+                    audio.play()
+                        .then(() => {
+                            playPauseIcon.className = 'fa-solid fa-pause';
+                        })
+                        .catch(error => {
+                            console.error('Impossibile riprodurre l\'audio:', error);
+                        });
+                } else {
+                    audio.pause();
+                    playPauseIcon.className = 'fa-solid fa-play';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

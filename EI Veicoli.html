@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forze Armate Italiane: Veicoli, Velivoli e Imbarcazioni</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variabili CSS */
+        :root {
+            --blu-istituzionale: #2d5a2d;
+            --grigio-istituzionale: #666666;
+            --verde-militare: #2D4739;
+            --grigio-chiaro: #f5f5f5;
+            --bianco: #ffffff;
+            --nero: #212121;
+            --ombra: 0 4px 8px rgba(0,0,0,0.1);
+            --transizione: all 0.3s ease;
+            --dark-green: #1a3a1a;
+            --medium-green: #2d5a2d;
+            --light-green: #3c6e3c;
+            --black: #121212;
+            --dark-gray: #333333;
+            --light-gray: #f0f0f0;
+            --gold: #d4af37;
+            --silver: #c0c0c0;
+        }
+        
+        /* Reset e stili di base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--grigio-chiaro);
+            color: var(--nero);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        /* Main Content */
+        header {
+            background-color: var(--dark-green);
+            height: 80px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 60px;
+        }
+        
+        .logo h1 {
+            color: white;
+            margin-left: 15px;
+            font-size: 1.5rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav ul li a:hover {
+            color: var(--gold);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/api/placeholder/1600/900') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+        }
+        
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .cta-button {
+            background-color: var(--gold);
+            color: var(--black);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        section {
+            padding: 80px 10%;
+        }
+        
+        section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--dark-green);
+            position: relative;
+        }
+        
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--gold);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero-section h2 {
+            font-size: 2.5rem;
+            color: var(--blu-istituzionale);
+            margin-bottom: 1rem;
+        }
+        
+        .hero-section p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--grigio-istituzionale);
+        }
+        
+        .category-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .category-button {
+            flex: 1;
+            max-width: 300px;
+            background-color: var(--bianco);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--ombra);
+            transition: var(--transizione);
+            cursor: pointer;
+        }
+        
+        .category-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .category-button.esercito {
+            border-top: 5px solid var(--verde-militare);
+        }
+        
+        .category-button.marina {
+            border-top: 5px solid var(--blu-istituzionale);
+        }
+        
+        .category-button.aeronautica {
+            border-top: 5px solid #0066CC;
+        }
+        
+        .category-button img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+        
+        .category-button h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--nero);
+        }
+        
+        .category-button p {
+            color: var(--grigio-istituzionale);
+        }
+        
+        .subcategory-nav {
+            background-color: var(--bianco);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--ombra);
+            display: none;
+        }
+        
+        .subcategory-nav.active {
+            display: block;
+        }
+        
+        .subcategory-buttons {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        
+        .subcategory-button {
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem;
+            background-color: var(--grigio-chiaro);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transizione);
+        }
+        
+        .subcategory-button:hover, .subcategory-button.active {
+            background-color: var(--blu-istituzionale);
+            color: var(--bianco);
+        }
+        
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .vehicle-card {
+            background-color: var(--bianco);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--ombra);
+            transition: var(--transizione);
+        }
+        
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .vehicle-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .vehicle-info {
+            padding: 1.5rem;
+        }
+        
+        .vehicle-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--blu-istituzionale);
+        }
+        
+        .vehicle-info p {
+            color: var(--grigio-istituzionale);
+            margin-bottom: 0.5rem;
+        }
+        
+        .vehicle-info .year {
+            font-size: 0.9rem;
+            color: var(--verde-militare);
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
+        .vehicle-detail {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .vehicle-detail.active {
+            display: block;
+        }
+        
+        .detail-container {
+            background-color: var(--bianco);
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .detail-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bianco);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--ombra);
+        }
+        
+        .detail-images {
+            position: relative;
+        }
+        
+        .detail-main-image {
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .detail-thumbnails {
+            display: flex;
+            padding: 0.5rem;
+            gap: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .detail-thumbnail {
+            width: 80px;
+            height: 60px;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: var(--transizione);
+        }
+        
+        .detail-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        
+        .detail-content {
+            padding: 2rem;
+        }
+        
+        .detail-content h3 {
+            font-size: 1.8rem;
+            color: var(--blu-istituzionale);
+            margin-bottom: 1rem;
+        }
+        
+        .detail-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--grigio-chiaro);
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            transition: var(--transizione);
+        }
+        
+        .detail-tab:hover, .detail-tab.active {
+            color: var(--blu-istituzionale);
+            border-bottom: 2px solid var(--blu-istituzionale);
+        }
+        
+        .detail-section {
+            display: none;
+        }
+        
+        .detail-section.active {
+            display: block;
+        }
+        
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .specs-table tr:nth-child(even) {
+            background-color: var(--grigio-chiaro);
+        }
+        
+        .specs-table th, .specs-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .specs-table th {
+            background-color: var(--blu-istituzionale);
+            color: var(--bianco);
+        }
+        
+        .social-share {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-share button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transizione);
+        }
+        
+        .social-share .facebook {
+            background-color: #3b5998;
+            color: white;
+        }
+        
+        .social-share .twitter {
+            background-color: #1da1f2;
+            color: white;
+        }
+        
+        .social-share .linkedin {
+            background-color: #0077b5;
+            color: white;
+        }
+        
+        footer {
+            background-color: var(--dark-green);
+            color: white;
+            padding: 50px 10%;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .footer-logo {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .footer-logo img {
+            height: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-links, .footer-contact {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-links h3, .footer-contact h3 {
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links ul li a:hover {
+            color: var(--gold);
+        }
+        
+        .footer-contact p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--medium-green);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--gold);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 1024px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .operations-container {
+                flex-direction: column;
+            }
+            
+            .operation-map {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                height: auto;
+                padding: 15px 5%;
+                flex-direction: column;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            section {
+                padding: 60px 5%;
+            }
+        }
+
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+            overflow: hidden; /* Per assicurarsi che l'immagine non crei scrollbar */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('image/eiwall2.jpg') center/cover no-repeat;
+            z-index: 1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Overlay scuro per leggibilità */
+            z-index: 2;
+        }
+
+        .hero h2, .hero p, .hero .cta-button {
+            position: relative;
+            z-index: 3; /* Valore più alto per assicurarsi che siano sopra l'immagine e l'overlay */
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        #music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        #play-pause-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--dark-green);
+            border: 2px solid var(--gold);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        #play-pause-button:hover {
+            background-color: var(--medium-green);
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: var(--dark-green);
+            color: white;
+            padding: 60px 10% 30px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #009246 33.3%, #ffffff 33.3%, #ffffff 66.6%, #ce2b37 66.6%); /* Tricolore italiano */
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo img {
+            height: 100px;
+            width: 165px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .social-icons a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--medium-green);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .footer-links h3, .footer-contact h3, .footer-documents h3 {
+            position: relative;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            color: var(--gold);
+        }
+
+        .footer-links h3::after, .footer-contact h3::after, .footer-documents h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--gold);
+        }
+
+        .footer-links ul, .footer-documents ul {
+            list-style: none;
+        }
+
+        .footer-links ul li, .footer-documents ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links ul li a, .footer-documents ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links ul li a i, .footer-documents ul li a i {
+            margin-right: 10px;
+            color: var(--gold);
+            width: 20px;
+            text-align: center;
+        }
+
+        .footer-links ul li a:hover, .footer-documents ul li a:hover {
+            color: var(--gold);
+            transform: translateX(5px);
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+        }
+
+        .contact-info p i {
+            margin-right: 10px;
+            color: var(--gold);
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-info p span {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .contact-info p a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info p a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        .join-now {
+            margin-top: 25px;
+        }
+
+        .join-button {
+            display: inline-block;
+            background-color: var(--gold);
+            color: var(--black);
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .join-button i {
+            margin-right: 8px;
+        }
+
+        .join-button:hover {
+            background-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .footer-credentials {
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        .certifications {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .certifications span {
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+        }
+
+        .certifications span i {
+            color: var(--gold);
+            margin-right: 8px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .copyright p {
+            margin-bottom: 10px;
+            color: #a0a0a0;
+        }
+
+        .copyright p:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .certifications {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="image/logo.png" alt="Logo Esercito Italiano Roleplay">
+            <h1>ESERCITO ITALIANO IRP</h1>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h2>L'Esercito Italiano: Forza, Onore, Patria</h2>
+        <div class="hero-image">
+            <img src="image/nessuna.jpg" alt="Soldati dell'Esercito Italiano">
+        </div>
+        <p>Entra a far parte del più realistico server roleplay dedicato all'Esercito Italiano. Vivi l'esperienza, l'addestramento e le missioni come un vero soldato.</p>
+        <a href="#" class="cta-button">Unisciti Ora</a>
+    </section>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero-section" id="vehicle">
+            <h2>Esplora i Mezzi delle Forze Armate Italiane</h2>
+            <p>Benvenuto nel portale dedicato ai veicoli, velivoli e imbarcazioni utilizzati dall'Esercito, dalla Marina e dall'Aeronautica Militare Italiana.</p>
+        </section>
+        
+        <section class="category-buttons">
+            <div class="category-button esercito" id="btn-esercito">
+                <img src="image/logo.png" alt="Logo Esercito">
+                <h3>Esercito</h3>
+                <p>Veicoli corazzati, logistici, artiglieria e mezzi speciali dell'Esercito Italiano</p>
+            </div>
+            
+            <div class="category-button marina" id="btn-marina">
+                <img src="image/marinalogo.png" alt="Logo Marina">
+                <h3>Marina</h3>
+                <p>Navi da guerra, sottomarini, navi ausiliarie e veicoli anfibi della Marina Militare</p>
+            </div>
+            
+            <div class="category-button aeronautica" id="btn-aeronautica">
+                <img src="image/aeronauticalogo.png" alt="Logo Aeronautica">
+                <h3>Aeronautica</h3>
+                <p>Caccia, elicotteri, trasporti e droni dell'Aeronautica Militare Italiana</p>
+            </div>
+        </section>
+        
+        <!-- Subcategories for Esercito -->
+        <section class="subcategory-nav" id="subcategory-esercito">
+            <div class="subcategory-buttons">
+                <div class="subcategory-button active" data-category="esercito" data-subcategory="corazzati">Veicoli Corazzati</div>
+                <div class="subcategory-button" data-category="esercito" data-subcategory="logistici">Veicoli Logistici</div>
+                <div class="subcategory-button" data-category="esercito" data-subcategory="artiglieria">Artiglieria</div>
+                <div class="subcategory-button" data-category="esercito" data-subcategory="speciali">Veicoli Speciali</div>
+            </div>
+            
+            <div class="vehicle-grid" id="esercito-corazzati">
+                <div class="vehicle-card" data-id="ariete">
+                    <div class="vehicle-image" style="background-image: url('image/c1.jpeg')"></div>
+                    <div class="vehicle-info">
+                        <h4>C1 Ariete</h4>
+                        <p>Carro armato da combattimento principale dell'Esercito Italiano</p>
+                        <p class="year">Anno: 1995</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card" data-id="dardo">
+                    <div class="vehicle-image" style="background-image: url('image/vccdardo.jpg')"></div>
+                    <div class="vehicle-info">
+                        <h4>VCC Dardo</h4>
+                        <p>Veicolo da combattimento per la fanteria corazzata</p>
+                        <p class="year">Anno: 1998</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card" data-id="centauro">
+                    <div class="vehicle-image" style="background-image: url('/api/placeholder/280/200')"></div>
+                    <div class="vehicle-info">
+                        <h4>B1 Centauro</h4>
+                        <p>Veicolo blindato con cannone da 105/120mm</p>
+                        <p class="year">Anno: 1991</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card" data-id="freccia">
+                    <div class="vehicle-image" style="background-image: url('/api/placeholder/280/200')"></div>
+                    <div class="vehicle-info">
+                        <h4>VBM Freccia</h4>
+                        <p>Veicolo blindato medio 8x8 per fanteria</p>
+                        <p class="year">Anno: 2009</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Subcategories for Marina -->
+        <section class="subcategory-nav" id="subcategory-marina">
+            <div class="subcategory-buttons">
+                <div class="subcategory-button active" data-category="marina" data-subcategory="navi">Navi da Guerra</div>
+                <div class="subcategory-button active" data-category="marina" data-subcategory="sottomarini">Sottomarini</div>
+                <div class="subcategory-button active" data-category="marina" data-subcategory="ausiliarie">Navi Ausiliarie</div>
+                <div class="subcategory-button active" data-category="marina" data-subcategory="anfibi">Veicoli Anfibi</div>
+            </div>
+            
+            <div class="vehicle-grid" id="marina-navi">
+                <div class="vehicle-card" data-id="cavour">
+                    <div class="vehicle-image" style="background-image: url('/api/placeholder/280/200')"></div>
+                    <div class="vehicle-info">
+                        <h4>Portaerei Cavour</h4>
+                        <p>Portaerei STOVL e nave ammiraglia della Marina Militare</p>
+                        <p class="year">Anno: 2008</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card" data-id="bergamini">
+                    <div class="vehicle-image" style="background-image: url('/api/placeholder/280/200')"></div>
+                    <div class="vehicle-info">
+                        <h4>Fregata Bergamini</h4>
+                        <p>Fregata multiruolo classe FREMM</p>
+                        <p class="year">Anno: 2013</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card" data-id="trieste">
+                    <div class="vehicle-image" style="background-image: url('/api/placeholder/280/200')"></div>
+                    <div class="vehicle-info">
+                        <h4>LHD Trieste</h4>
+                        <p>Nave d'assalto anfibio portaelicotteri</p>
+                        <p class="year">Anno: 2022</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card" data-id="doria">
+                    <div class="vehicle-image" style="background-image: url('/api/placeholder/280/200')"></div>
+                    <div class="vehicle-info">
+                        <h4>Cacciatorpediniere Doria</h4>
+                        <p>Cacciatorpediniere lanciamissili classe Orizzonte</p>
+                        <p class="year">Anno: 2007</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Subcategories for Aeronautica -->
+        <section class="subcategory-nav" id="subcategory-aeronautica">
+            <div class="subcategory-buttons">
+                <div class="subcategory-button active" data-category="aeronautica" data-subcategory="caccia">Caccia</div>
+                <div class="subcategory-button active" data-category="aeronautica" data-subcategory="elicotteri">Elicotteri</div>
+                <div class="subcategory-button active" data-category="aeronautica" data-subcategory="trasporti">Trasporti</div>
+                <div class="subcategory-button active" data-category="aeronautica" data-subcategory="droni">Droni</div>
+            </div>
+            
+            <div class="vehicle-grid" id="aeronautica-caccia">
+                <div class="vehicle-card" data-id="f35">
+                    <div class="vehicle-image" style="background-image: url('/api/placeholder/280/200')"></div>
+                    <div class="vehicle-info">
+                        <h4>F-35 Lightning II</h4>
+                        <p>Caccia multiruolo di quinta generazione</p>
+                        <p class="year">Anno: 2015</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card" data-id="eurofighter">
+                    <div class="vehicle-image" style="background-image: url('/api/placeholder/280/200')"></div>
+                    <div class="vehicle-info">
+                        <h4>Eurofighter Typhoon</h4>
+                        <p>Caccia multiruolo europeo di quarta generazione</p>
+                        <p class="year">Anno: 2003</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card" data-id="amx">
+                    <div class="vehicle-image" style="background-image: url('/api/placeholder/280/200')"></div>
+                    <div class="vehicle-info">
+                        <h4>AMX Ghibli</h4>
+                        <p>Aereo da attacco al suolo leggero italo-brasiliano</p>
+                        <p class="year">Anno: 1989</p>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card" data-id="tornado">
+                    <div class="vehicle-image" style="background-image: url('/api/placeholder/280/200')"></div>
+                    <div class="vehicle-info">
+                        <h4>Tornado IDS</h4>
+                        <p>Cacciabombardiere con capacità ognitempo</p>
+                        <p class="year">Anno: 1982</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </main>
+    
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="footer-content">
+                <!-- Colonna Logo e Descrizione -->
+                <div class="footer-logo">
+                    <img src="image/eiscritta.png" alt="Logo Esercito Italiano Roleplay">
+                    <p>Il server roleplay dell'Esercito Italiano è una comunità dedicata alla simulazione realistica dell'esperienza militare. Uniamoci nel nome dei valori di onore, coraggio e disciplina per servire con fedeltà la Patria.</p>
+                    <div class="social-icons">
+                        <a href="#" title="Discord" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+                        <a href="#" title="YouTube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" title="Instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" title="Twitter" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" title="Facebook" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    </div>
+                </div>
+        
+                <!-- Colonna Link Utili -->
+                <div class="footer-links">
+                    <h3>Link Utili</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                        <li><a href="#home"><i class="fa-solid fa-users"></i> Mezzi operativi</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScymWuldn9yvJWk7ogMQ3NqDv9XDePvyKB_7DtLMewXo0v8zA/viewform"><i class="fa-solid fa-clipboard-list"></i> Bandi di Arruolamento</a></li>
+                        <li><a href="https://docs.google.com/document/d/1Z3_Ow9_Vs7IBGzFsqHDysPZsVTFxmumNfbcAv-IVpo8/edit?tab=t.0"><i class="fa-solid fa-book"></i> Manuali di Addestramento</a></li>
+                        <li><a href="EI Gradi.html"><i class="fa-solid fa-medal"></i> Gradi Esercito Italiano</a></li>
+                        <li><a href="#"><i class="fa-solid fa-question-circle"></i> FAQ</a></li>
+                    </ul>
+                </div>
+        
+                <!-- Colonna Documenti -->
+                <div class="footer-documents">
+                    <h3>Documenti Ufficiali</h3>
+                    <ul>
+                        <li><a href="#"><i class="fa-solid fa-file-alt"></i> Regolamento Generale</a></li>
+                        <li><a href="#"><i class="fa-solid fa-file-contract"></i> Codice di Condotta</a></li>
+                        <li><a href="#"><i class="fa-solid fa-file-medical"></i> Procedure Operative Standard</a></li>
+                        <li><a href="#"><i class="fa-solid fa-calendar-alt"></i> Calendario Addestrativo</a></li>
+                        <li><a href="#"><i class="fa-solid fa-shield-alt"></i> Normative di Sicurezza</a></li>
+                        <li><a href="#"><i class="fa-solid fa-graduation-cap"></i> Percorsi Formativi</a></li>
+                        <li><a href="#"><i class="fa-solid fa-history"></i> Storia dell'Esercito</a></li>
+                        <li><a href="#"><i class="fa-solid fa-newspaper"></i> Bollettino Informativo</a></li>
+                    </ul>
+                </div>
+        
+                <!-- Colonna Contatti -->
+                <div class="footer-contact">
+                    <h3>Contattaci</h3>
+                    <div class="contact-info">
+                        <p><i class="fa-brands fa-discord"></i> <span>Discord:</span> <a href="https://discord.gg/esercitoitalianorp" target="_blank">EsercitoItalianoRP</a></p>
+                        <p><i class="fa-solid fa-envelope"></i> <span>Email:</span> <a href="mailto:info@esercitoitalianorp.it">info@esercitoitalianorp.it</a></p>
+                        <p><i class="fa-solid fa-clock"></i> <span>Orari Server:</span> 14:00 - 00:00 CET</p>
+                        <p><i class="fa-solid fa-calendar-check"></i> <span>Addestramenti:</span> Martedì, Giovedì, Sabato</p>
+                        <p><i class="fa-solid fa-bullhorn"></i> <span>Reclutamenti:</span> Lunedì e Venerdì</p>
+                    </div>
+                    <div class="join-now">
+                        <a href="#" class="join-button"><i class="fa-solid fa-user-plus"></i> Unisciti Ora</a>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Copyright -->
+            <div class="copyright">
+                <p>&copy; 2025 Esercito Italiano Roleplay Server. Tutti i diritti riservati.</p>
+                <p><small>Questo server non è affiliato con l'Esercito Italiano ufficiale. Creato a scopo di intrattenimento e roleplay.</small></p>
+            </div>
+        </footer>
+    
+    <script>
+        // Funzioni per la navigazione delle categorie
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variabili per elementi DOM
+            const categoryButtons = document.querySelectorAll('.category-button');
+            const subcategoryNavs = document.querySelectorAll('.subcategory-nav');
+            const navLinks = document.querySelectorAll('nav ul li a');
+            const subcategoryButtons = document.querySelectorAll('.subcategory-button');
+            const vehicleCards = document.querySelectorAll('.vehicle-card');
+            const vehicleDetail = document.getElementById('vehicle-detail');
+            const detailClose = document.getElementById('detail-close');
+            const detailTabs = document.querySelectorAll('.detail-tab');
+            const detailSections = document.querySelectorAll('.detail-section');
+            const detailThumbnails = document.querySelectorAll('.detail-thumbnail');
+            const detailMainImage = document.getElementById('detail-main-image');
+            
+            // Funzione per mostrare una sottocategoria
+            function showSubcategory(category) {
+                // Nascondi tutte le sottocategorie
+                subcategoryNavs.forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                // Mostra la sottocategoria selezionata
+                const targetSubcategory = document.getElementById('subcategory-' + category);
+                if (targetSubcategory) {
+                    targetSubcategory.classList.add('active');
+                }
+            }
+            
+            // Event listener per i pulsanti di categoria
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.id.split('-')[1]; // btn-esercito -> esercito
+                    showSubcategory(category);
+                });
+            });
+            
+            // Event listener per i link di navigazione
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Rimuovi classe active da tutti i link
+                    navLinks.forEach(l => l.parentElement.classList.remove('active'));
+                    
+                    // Aggiungi classe active al link corrente
+                    this.parentElement.classList.add('active');
+                    
+                    // Se è un link di categoria, mostra la sottocategoria corrispondente
+                    if (this.id.startsWith('nav-')) {
+                        const category = this.id.split('-')[1]; // nav-esercito -> esercito
+                        showSubcategory(category);
+                    }
+                });
+            });
+            
+            // Event listener per i pulsanti di sottocategoria
+            subcategoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    const subcategory = this.dataset.subcategory;
+                    
+                    // Rimuovi classe active da tutti i pulsanti di sottocategoria
+                    document.querySelectorAll(`.subcategory-button[data-category="${category}"]`).forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    
+                    // Aggiungi classe active al pulsante corrente
+                    this.classList.add('active');
+                    
+                    // Mostra i veicoli della sottocategoria selezionata
+                    // Nel caso di un'applicazione reale, qui si potrebbe fare una chiamata AJAX
+                    // o visualizzare i veicoli filtrati da un dataset più ampio
+                    console.log(`Mostro veicoli della categoria ${category}, sottocategoria ${subcategory}`);
+                });
+            });
+            
+            // Event listener per le schede dei veicoli
+            vehicleCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const vehicleId = this.dataset.id;
+                    console.log(`Mostro dettagli del veicolo ${vehicleId}`);
+                    
+                    // In un'app reale, qui si caricherebbero i dati del veicolo
+                    // Per ora, simuliamo l'apertura della finestra modale
+                    vehicleDetail.classList.add('active');
+                    
+                    // Aggiungiamo la classe per bloccare lo scroll della pagina
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Event listener per chiudere la finestra modale
+            detailClose.addEventListener('click', function() {
+                vehicleDetail.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Event listener per i tab nella finestra modale
+            detailTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    
+                    // Rimuovi classe active da tutti i tab
+                    detailTabs.forEach(t => t.classList.remove('active'));
+                    detailSections.forEach(s => s.classList.remove('active'));
+                    
+                    // Aggiungi classe active al tab corrente
+                    this.classList.add('active');
+                    
+                    // Mostra la sezione corrispondente
+                    document.getElementById('tab-' + tabName).classList.add('active');
+                });
+            });
+            
+            // Event listener per le miniature nella finestra modale
+            detailThumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    const imgUrl = this.dataset.img;
+                    detailMainImage.style.backgroundImage = `url('${imgUrl}')`;
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('nav ul li a');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.forEach(l => l.parentElement.classList.remove('active'));
+                    this.parentElement.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

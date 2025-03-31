@@ -1274,6 +1274,7 @@
                     <li><a href="#"><i class="fa-solid fa-graduation-cap"></i> Percorsi Formativi</a></li>
                     <li><a href="#"><i class="fa-solid fa-history"></i> Storia dell'Esercito</a></li>
                     <li><a href="#"><i class="fa-solid fa-newspaper"></i> Bollettino Informativo</a></li>
+                    <li><a href="EI Quiz.html" onclick="checkPassword()"><i class="fa-solid fa-user-lock"></i> Reclutamenti</a></li>
                 </ul>
             </div>
     
@@ -1374,6 +1375,17 @@
                 }
             });
         });
+
+        function checkPassword() {
+            let password = prompt("Inserisci la password per accedere alla sezione:");
+            let correctPassword = "EI2025"; // Cambia questa password
+
+            if (password === correctPassword) {
+                window.location.href = "EI Quiz.html"; // Permette di accedere alla sezione
+            } else {
+                alert("Password errata! Accesso negato.");
+            }
+        }
     </script>
 </body>
 </html>

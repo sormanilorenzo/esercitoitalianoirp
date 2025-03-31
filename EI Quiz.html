@@ -639,6 +639,69 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Autenticazione Discord */
+        
+        .discord-auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .discord-auth-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .discord-auth-container h2 {
+            color: var(--dark-green);
+            margin-bottom: 20px;
+        }
+
+        .discord-auth-container p {
+            margin-bottom: 30px;
+            color: var(--dark-gray);
+        }
+
+        .discord-auth-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #5865F2;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .discord-auth-button i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .discord-auth-button:hover {
+            background-color: #4752C4;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Nascondi l'overlay quando l'autenticazione è completata */
+        .auth-completed .discord-auth-overlay {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -669,8 +732,10 @@
                 <input type="text" id="cognome" placeholder="Cognome" required>
                 <input type="date" id="data-nascita" placeholder="Data di Nascita" required>
                 <input type="tel" id="numero-telefono" placeholder="Numero di Telefono" required>
+                <input type="hidden" id="discord-id" name="discord-id">
+                <input type="hidden" id="discord-username" name="discord-username">
                 <button type="submit" class="cta-button">Avvia Quiz</button>
-            </form>
+            </form>            
         </div>
     </section>
 
@@ -752,6 +817,17 @@
                 <p><small>Questo server non è affiliato con l'Esercito Italiano ufficiale. Creato a scopo di intrattenimento e roleplay.</small></p>
             </div>
         </footer>
+
+        <!-- "2FA OAuth2" -->
+        <div class="discord-auth-overlay" id="discord-auth-overlay">
+            <div class="discord-auth-container">
+                <h2>Accesso Richiesto</h2>
+                <p>Per partecipare al quiz dell'Esercito Italiano Roleplay, è necessario accedere con il tuo account Discord.</p>
+                <a href="#" id="discord-login-button" class="discord-auth-button">
+                    <i class="fa-brands fa-discord"></i> Accedi con Discord
+                </a>
+            </div>
+        </div>
 
         <script>
             // Dati del quiz
@@ -1025,9 +1101,17 @@
                 const cognome = document.getElementById('cognome').value.trim();
                 const dataNascita = document.getElementById('data-nascita').value;
                 const numeroTelefono = document.getElementById('numero-telefono').value.trim();
+                const discordId = document.getElementById('discord-id').value.trim();
+                const discordUsername = document.getElementById('discord-username').value.trim();
 
                 if (!nome || !cognome || !dataNascita || !numeroTelefono) {
                     alert('Per favore, compila tutti i campi');
+                    return;
+                }
+                
+                if (!discordId || !discordUsername) {
+                    alert('È necessario accedere con Discord prima di procedere');
+                    document.body.classList.remove('auth-completed');
                     return;
                 }
                 
@@ -1036,7 +1120,9 @@
                     nome: nome,
                     cognome: cognome,
                     dataNascita: dataNascita,
-                    numeroTelefono: numeroTelefono
+                    numeroTelefono: numeroTelefono,
+                    discordId: discordId,
+                    discordUsername: discordUsername
                 };
 
                 // Hide registration section, show quiz section
@@ -1046,6 +1132,11 @@
                 // Generate quiz and start timer
                 generateQuiz();
                 startQuizTimer();
+            });
+
+            // Controlla lo stato dell'autenticazione all'avvio
+            document.addEventListener('DOMContentLoaded', function() {
+                checkDiscordAuth();
             });
 
             // Generate Quiz 
@@ -1108,7 +1199,7 @@
 
             // Start Quiz Timer
             function startQuizTimer() {
-                let timeLeft = 60 * 60; // 60 minutes in seconds
+                let timeLeft = 20 * 20; // 60 minutes in seconds
 
                 quizTimer = setInterval(() => {
                     const minutes = Math.floor(timeLeft / 60);
@@ -1194,6 +1285,7 @@
                                 { name: "Nome Completo", value: `${results.nome} ${results.cognome}`, inline: false },
                                 { name: "Data di Nascita", value: results.dataNascita, inline: true },
                                 { name: "Numero Telefono", value: results.numeroTelefono, inline: true },
+                                { name: "Discord", value: `<@${results.discordId}> (${results.discordUsername})`, inline: true },
                                 { name: "Domande Totali", value: results.totalQuestions.toString(), inline: true },
                                 { name: "Risposte Corrette", value: results.correctAnswers.toString(), inline: true },
                                 { name: "Percentuale", value: `${results.percentageCorrect.toFixed(2)}%`, inline: true },
@@ -1254,6 +1346,73 @@
 
             // Submit Button Event Listener
             submitButton.addEventListener('click', submitQuiz);
+
+            // Configurazione OAuth2 di Discord
+            const clientId = '1356303106127696094'; // Sostituisci con il tuo Client ID Discord
+            const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
+            const scope = 'identify';
+
+            // Gestore per il pulsante di login Discord
+            document.getElementById('discord-login-button').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
+            });
+
+            // Controlla se l'utente è tornato dal flusso OAuth2
+            function checkDiscordAuth() {
+                const hash = window.location.hash.substring(1);
+                if (hash) {
+                    const params = new URLSearchParams(hash);
+                    const accessToken = params.get('access_token');
+                    
+                    if (accessToken) {
+                        // Rimuovi il frammento dall'URL per pulizia
+                        history.pushState("", document.title, window.location.pathname + window.location.search);
+                        
+                        // Ottieni le informazioni dell'utente Discord
+                        fetch('https://discord.com/api/users/@me', {
+                            headers: {
+                                'Authorization': `Bearer ${accessToken}`
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Salva i dati dell'utente Discord
+                            const discordId = data.id;
+                            const discordUsername = data.username;
+                            
+                            // Memorizza l'ID e il nome utente di Discord nei campi nascosti del form
+                            document.getElementById('discord-id').value = discordId;
+                            document.getElementById('discord-username').value = discordUsername;
+                            
+                            // Memorizza i dati in localStorage per persistenza
+                            localStorage.setItem('discord_id', discordId);
+                            localStorage.setItem('discord_username', discordUsername);
+                            
+                            // Rimuovi l'overlay di autenticazione
+                            document.body.classList.add('auth-completed');
+                            
+                            console.log('Autenticato con Discord:', discordUsername, discordId);
+                        })
+                        .catch(error => {
+                            console.error('Errore durante il recupero dei dati Discord:', error);
+                            alert('Si è verificato un errore durante l\'autenticazione. Riprova.');
+                        });
+                    }
+                } else {
+                    // Controlla se ci sono già credenziali memorizzate
+                    const savedDiscordId = localStorage.getItem('discord_id');
+                    const savedDiscordUsername = localStorage.getItem('discord_username');
+                    
+                    if (savedDiscordId && savedDiscordUsername) {
+                        // Riutilizza le credenziali salvate
+                        document.getElementById('discord-id').value = savedDiscordId;
+                        document.getElementById('discord-username').value = savedDiscordUsername;
+                        document.body.classList.add('auth-completed');
+                        console.log('Utilizzando credenziali Discord salvate:', savedDiscordUsername, savedDiscordId);
+                    }
+                }
+            }
         </script>     
     </body>
 </html>

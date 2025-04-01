@@ -123,6 +123,13 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
         
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Spazio tra i pulsanti */
+            flex-wrap: wrap; /* Per dispositivi mobili */
+        }
+
         .cta-button {
             background-color: var(--gold);
             color: var(--black);
@@ -134,7 +141,6 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
         }
         
         .cta-button:hover {
@@ -824,7 +830,14 @@
             <img src="image/nessuna.jpg" alt="Soldati dell'Esercito Italiano">
         </div>
         <p>Non aspettare che il cambiamento arrivi, diventa tu il cambiamento! La tua forza e il tuo impegno per il nostro Paese.</p>
-        <a href="#" class="cta-button">Unisciti Ora</a>
+        
+        <!-- Nuovo div per contenere i pulsanti -->
+        <div class="hero-buttons">
+            <a href="#" class="cta-button">Unisciti Ora</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScymWuldn9yvJWk7ogMQ3NqDv9XDePvyKB_7DtLMewXo0v8zA/viewform" class="cta-button">Bandi di Arruolamento</a>
+            <a href="https://docs.google.com/document/d/1Z3_Ow9_Vs7IBGzFsqHDysPZsVTFxmumNfbcAv-IVpo8/edit?tab=t.0" class="cta-button">Manuali di Addestramento</a>
+            <!-- Puoi aggiungere altri pulsanti qui -->
+        </div>
     </section>
 
     <!-- About Section -->

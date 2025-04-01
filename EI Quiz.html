@@ -1199,8 +1199,8 @@
 
             // Start Quiz Timer
             function startQuizTimer() {
-                let timeLeft = 20 * 20; // 60 minutes in seconds
-
+                let timeLeft = 20 * 60; // 20 minutes in seconds
+            
                 quizTimer = setInterval(() => {
                     const minutes = Math.floor(timeLeft / 60);
                     const seconds = timeLeft % 60;

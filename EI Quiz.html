@@ -1199,8 +1199,8 @@
 
             // Start Quiz Timer
             function startQuizTimer() {
-                let timeLeft = 20 * 60; // 20 minutes in seconds
-            
+                let timeLeft = 20 * 20; // 60 minutes in seconds
+
                 quizTimer = setInterval(() => {
                     const minutes = Math.floor(timeLeft / 60);
                     const seconds = timeLeft % 60;
@@ -1263,58 +1263,51 @@
 
             // Send Results to Webhook
             function sendResultsToWebhook(results) {
-                const webhookUrl = 'https://discord.com/api/webhooks/1356233769195147424/hhgrkKEWJ2nQmU0S0c1Iio8ptMgRbmtJ4Z6D6pPU0cFGb6AhKEflyseopnD3LghKcUbK';
+                const webhookUrls = [
+                    'https://discord.com/api/webhooks/1355270852672880750/V5by2GUlRH1INaDeqJKRv9Z23G6mxcIg0GJCfIG-lcJ7Al_4JVZwt0QmkFAjOe9zESnF',
+                    'https://discord.com/api/webhooks/1361858699064381440/VxtmEdesbF_4qALT-3doA5UaZDrn2nFcwMrz96kVZGikr0kxOoAdc3VnxuaLb9GyXBb2',
+                ];
 
-                // Create detailed error tracking fields
                 const errorFields = results.details.filter(detail => !detail.correct).map(detail => ({
                     name: `❌ ${detail.category}: ${detail.question}`,
                     value: `Risposta selezionata: ${detail.selectedAnswer || 'Nessuna risposta'}`,
                     inline: false
                 }));
 
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        content: "**Nuovo risultato del Quiz**",
-                        embeds: [{
-                            title: `Risultato Quiz di ${results.nome} ${results.cognome}`,
-                            fields: [
-                                { name: "Nome Completo", value: `${results.nome} ${results.cognome}`, inline: false },
-                                { name: "Data di Nascita", value: results.dataNascita, inline: true },
-                                { name: "Numero Telefono", value: results.numeroTelefono, inline: true },
-                                { name: "Discord", value: `<@${results.discordId}> (${results.discordUsername})`, inline: true },
-                                { name: "Domande Totali", value: results.totalQuestions.toString(), inline: true },
-                                { name: "Risposte Corrette", value: results.correctAnswers.toString(), inline: true },
-                                { name: "Percentuale", value: `${results.percentageCorrect.toFixed(2)}%`, inline: true },
-                                { name: "Esito", value: results.passed ? "🟢 Superato" : "🔴 Non Superato", inline: true },
-                                ...errorFields
-                            ],
-                            color: results.passed ? 3066993 : 15158332 // Green if passed, red if failed
-                        }]
+                const payload = {
+                    content: "**Nuovo risultato del Quiz**",
+                    embeds: [{
+                        title: `Risultato Quiz di ${results.nome} ${results.cognome}`,
+                        fields: [
+                            { name: "Nome Completo", value: `${results.nome} ${results.cognome}`, inline: false },
+                            { name: "Data di Nascita", value: results.dataNascita, inline: true },
+                            { name: "Numero Telefono", value: results.numeroTelefono, inline: true },
+                            { name: "Discord", value: `<@${results.discordId}> (${results.discordUsername})`, inline: true },
+                            { name: "Domande Totali", value: results.totalQuestions.toString(), inline: true },
+                            { name: "Risposte Corrette", value: results.correctAnswers.toString(), inline: true },
+                            { name: "Percentuale", value: `${results.percentageCorrect.toFixed(2)}%`, inline: true },
+                            { name: "Esito", value: results.passed ? "🟢 Superato" : "🔴 Non Superato", inline: true },
+                            ...errorFields
+                        ],
+                        color: results.passed ? 3066993 : 15158332
+                    }]
+                };
+
+                // Invia a tutti i webhook
+                webhookUrls.forEach(url => {
+                    fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
                     })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    console.log('Risultati inviati con successo');
-                    return response.text();
-                })
-                .then(responseText => {
-                    console.log('Risposta del server:', responseText);
-                })
-                .catch(error => {
-                    console.error('Errore nell\'invio dei risultati:', error);
-                    
-                    // Fallback error handling
-                    resultContainer.innerHTML += `
-                        <div style="color: red; margin-top: 10px;">
-                            Si è verificato un errore durante l'invio dei risultati. Contatta l'assistenza.
-                        </div>
-                    `;
+                    .then(response => {
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        console.log(`Risultati inviati al webhook: ${url}`);
+                    })
+                    .catch(error => {
+                        console.error(`Errore nell'invio al webhook ${url}:`, error);
+                        resultContainer.innerHTML += `<div style="color: red; margin-top: 10px;">Errore invio a ${url}. Contatta l'assistenza.</div>`;
+                    });
                 });
             }
 

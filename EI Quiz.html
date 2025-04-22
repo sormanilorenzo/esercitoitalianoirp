@@ -1074,7 +1074,7 @@
                 },
                 // Other questions will be added here
             ];
-
+        
             // DOM Elements
             const registrationSection = document.querySelector('.registration-section');
             const quizSection = document.querySelector('.quiz-section');
@@ -1083,15 +1083,15 @@
             const submitButton = document.getElementById('submit-btn');
             const resultContainer = document.getElementById('result-container');
             const timerDisplay = document.getElementById('timer-display');
-
+        
             // Registration Data
             let participantData = {};
-
+        
             // Quiz State
             let selectedAnswers = [];
             let quizStartTime;
             let quizTimer;
-
+        
             // Registration Form Submit
             registrationForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1103,7 +1103,7 @@
                 const numeroTelefono = document.getElementById('numero-telefono').value.trim();
                 const discordId = document.getElementById('discord-id').value.trim();
                 const discordUsername = document.getElementById('discord-username').value.trim();
-
+        
                 if (!nome || !cognome || !dataNascita || !numeroTelefono) {
                     alert('Per favore, compila tutti i campi');
                     return;
@@ -1124,49 +1124,49 @@
                     discordId: discordId,
                     discordUsername: discordUsername
                 };
-
+        
                 // Hide registration section, show quiz section
                 registrationSection.classList.remove('active');
                 quizSection.classList.add('active');
-
+        
                 // Generate quiz and start timer
                 generateQuiz();
                 startQuizTimer();
             });
-
+        
             // Controlla lo stato dell'autenticazione all'avvio
             document.addEventListener('DOMContentLoaded', function() {
                 checkDiscordAuth();
             });
-
+        
             // Generate Quiz 
             function generateQuiz() {
                 quizStartTime = new Date();
-
+        
                 quizData.forEach((questionData, index) => {
                     const questionDiv = document.createElement('div');
                     questionDiv.classList.add('question');
-
+        
                     const categoryElement = document.createElement('div');
                     categoryElement.classList.add('question-category');
                     categoryElement.textContent = questionData.category;
                     questionDiv.appendChild(categoryElement);
-
+        
                     if (questionData.image && questionData.image.trim() !== '') {
                         const image = document.createElement('img');
                         image.src = questionData.image;
                         image.classList.add('question-image');
                         questionDiv.appendChild(image);
                     }
-
+        
                     const questionText = document.createElement('div');
                     questionText.classList.add('question-text');
                     questionText.textContent = questionData.question;
                     questionDiv.appendChild(questionText);
-
+        
                     const optionsDiv = document.createElement('div');
                     optionsDiv.classList.add('options');
-
+        
                     questionData.options.forEach((option, optionIndex) => {
                         const optionElement = document.createElement('label');
                         optionElement.classList.add('option');
@@ -1191,16 +1191,16 @@
                         
                         optionsDiv.appendChild(optionElement);
                     });
-
+        
                     questionDiv.appendChild(optionsDiv);
                     quizContainer.appendChild(questionDiv);
                 });
             }
-
+        
             // Start Quiz Timer
             function startQuizTimer() {
                 let timeLeft = 20 * 20; // 60 minutes in seconds
-
+        
                 quizTimer = setInterval(() => {
                     const minutes = Math.floor(timeLeft / 60);
                     const seconds = timeLeft % 60;
@@ -1215,17 +1215,17 @@
                     timeLeft--;
                 }, 1000);
             }
-
+        
             // Select Answer 
             function selectAnswer(questionIndex, optionIndex) {
                 selectedAnswers[questionIndex] = optionIndex;
             }
-
+        
             // Calculate Results
             function calculateResults() {
                 const quizEndTime = new Date();
                 const timeTaken = (quizEndTime - quizStartTime) / 1000;
-
+        
                 const results = {
                     ...participantData,
                     totalQuestions: quizData.length,
@@ -1234,7 +1234,7 @@
                     timeTaken: timeTaken,
                     details: []
                 };
-
+        
                 quizData.forEach((questionData, index) => {
                     const isCorrect = selectedAnswers[index] === questionData.correctAnswer;
                     
@@ -1246,31 +1246,47 @@
                             ? questionData.options[selectedAnswers[index]]
                             : null
                     });
-
+        
                     if (isCorrect) {
                         results.correctAnswers++;
                     } else {
                         results.wrongAnswers++;
                     }
                 });
-
+        
                 // NEW: Pass condition is 15 or more correct answers
                 results.passed = results.correctAnswers >= 15;
                 results.percentageCorrect = (results.correctAnswers / quizData.length) * 100;
-
+        
                 return results;
             }
-
+        
             // Send Results to Webhook
             function sendResultsToWebhook(results) {
                 const webhookUrl = 'https://discord.com/api/webhooks/1356233769195147424/hhgrkKEWJ2nQmU0S0c1Iio8ptMgRbmtJ4Z6D6pPU0cFGb6AhKEflyseopnD3LghKcUbK';
-
-                const errorFields = results.details.filter(detail => !detail.correct).map(detail => ({
-                    name: `❌ ${detail.category}: ${detail.question}`,
-                    value: `Risposta selezionata: ${detail.selectedAnswer || 'Nessuna risposta'}`,
-                    inline: false
-                }));
-
+        
+                // Prepara le risposte errate come campi dell'embed
+                const errorFields = results.details
+                    .filter(detail => !detail.correct)
+                    .map(detail => ({
+                        name: `❌ ${detail.category}: ${detail.question}`,
+                        value: `Risposta selezionata: ${detail.selectedAnswer || 'Nessuna risposta'}`,
+                        inline: false
+                    }));
+        
+                // Limita il numero di campi per rispettare i limiti di Discord (max 25 campi)
+                const maxFields = 20; // Lasciamo margine per gli altri campi
+                const trimmedErrorFields = errorFields.slice(0, maxFields);
+                
+                if (errorFields.length > maxFields) {
+                    trimmedErrorFields.push({
+                        name: "Nota",
+                        value: `Altre ${errorFields.length - maxFields} risposte errate non mostrate per limiti di Discord`,
+                        inline: false
+                    });
+                }
+        
+                // Crea il payload
                 const payload = {
                     content: "**Nuovo risultato del Quiz**",
                     embeds: [{
@@ -1284,45 +1300,75 @@
                             { name: "Risposte Corrette", value: results.correctAnswers.toString(), inline: true },
                             { name: "Percentuale", value: `${results.percentageCorrect.toFixed(2)}%`, inline: true },
                             { name: "Esito", value: results.passed ? "🟢 Superato" : "🔴 Non Superato", inline: true },
-                            ...errorFields
+                            ...trimmedErrorFields
                         ],
-                        color: results.passed ? 3066993 : 15158332
+                        color: results.passed ? 3066993 : 15158332 // Verde se passato, rosso se non passato
                     }]
                 };
-
+        
+                // Aggiunta di gestione più robusta degli errori
                 fetch(webhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 })
                 .then(response => {
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    console.log(`Risultati inviati al webhook`);
+                    if (!response.ok) {
+                        console.error(`Errore HTTP: ${response.status}`);
+                        throw new Error(`Errore HTTP! Status: ${response.status}`);
+                    }
+                    console.log('Risultati inviati al webhook con successo');
+                    return response.text(); // Discord webhook typically returns empty response
+                })
+                .then(() => {
+                    // Aggiunta di un feedback positivo all'utente
+                    resultContainer.innerHTML += `<div style="color: green; margin-top: 10px;">✅ Risultati inviati con successo!</div>`;
                 })
                 .catch(error => {
-                    console.error(`Errore nell'invio al webhook:`, error);
-                    resultContainer.innerHTML += `<div style="color: red; margin-top: 10px;">Errore invio a webhook. Contatta l'assistenza.</div>`;
+                    console.error('Errore nell\'invio al webhook:', error);
+                    
+                    // Tentativo di reinvio con payload più semplice in caso di errore
+                    const simplePayload = {
+                        content: `**Risultato Quiz di ${results.nome} ${results.cognome}**\nRisposte corrette: ${results.correctAnswers}/${results.totalQuestions}\nEsito: ${results.passed ? "Superato" : "Non Superato"}\nDiscord: <@${results.discordId}>`
+                    };
+                    
+                    console.log('Tentativo di reinvio con payload semplificato...');
+                    
+                    fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(simplePayload)
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Secondo tentativo fallito: ${response.status}`);
+                        console.log('Risultati inviati con payload semplificato');
+                        resultContainer.innerHTML += `<div style="color: green; margin-top: 10px;">✅ Risultati inviati con successo (formato semplificato)!</div>`;
+                    })
+                    .catch(secondError => {
+                        console.error('Secondo tentativo fallito:', secondError);
+                        resultContainer.innerHTML += `<div style="color: red; margin-top: 10px;">❌ Errore nell'invio dei risultati. Per favore, contatta l'assistenza e fornisci il seguente codice: ${results.correctAnswers}/${results.totalQuestions} - ${new Date().toISOString()}</div>`;
+                    });
                 });
             }
-
+        
             // Submit Quiz Function
             function submitQuiz() {
                 // Stop the timer
                 clearInterval(quizTimer);
-
+        
                 // Fill in missing answers as false
                 quizData.forEach((_, index) => {
                     if (selectedAnswers[index] === undefined) {
                         selectedAnswers[index] = -1; // Indicating no answer selected
                     }
                 });
-
+        
                 // Calculate results
                 const results = calculateResults();
-
+        
                 // Send results to webhook
                 sendResultsToWebhook(results);
-
+        
                 // Display thank you message without revealing correct answers
                 submitButton.style.display = 'none';
                 resultContainer.innerHTML = `
@@ -1330,21 +1376,21 @@
                 `;
                 resultContainer.style.display = 'block';
             }
-
+        
             // Submit Button Event Listener
             submitButton.addEventListener('click', submitQuiz);
-
+        
             // Configurazione OAuth2 di Discord
             const clientId = '1356303106127696094'; // Sostituisci con il tuo Client ID Discord
             const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
             const scope = 'identify';
-
+        
             // Gestore per il pulsante di login Discord
             document.getElementById('discord-login-button').addEventListener('click', function(e) {
                 e.preventDefault();
                 window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
             });
-
+        
             // Controlla se l'utente è tornato dal flusso OAuth2
             function checkDiscordAuth() {
                 const hash = window.location.hash.substring(1);
@@ -1400,6 +1446,6 @@
                     }
                 }
             }
-        </script>     
+        </script>  
     </body>
 </html>
